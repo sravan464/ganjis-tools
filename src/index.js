@@ -1,13 +1,23 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import reportWebVitals from "./reportWebVitals";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import HomePage from "./pages/home-page";
+import TaxReturns from "./pages/tax-returns";
+import NoMatch from "./pages/no-match";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomePage />}>
+          <Route path="/taxreturns" element={<TaxReturns />} />
+        </Route>
+        <Route path="*" element={<NoMatch />} />
+      </Routes>
+    </BrowserRouter>
   </React.StrictMode>
 );
 
