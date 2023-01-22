@@ -1,7 +1,7 @@
 import { Formik } from "formik";
 import * as yup from "yup";
 import React, { useState } from "react";
-import { Button, Col, Form, Row } from "react-bootstrap";
+import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import FormSection1 from "./form-section-1";
 import FormSection2 from "./form-section-2";
 import Alert from "react-bootstrap/Alert";
@@ -27,6 +27,10 @@ const schema = yup.object({
       (value) => value > 0
     ),
 });
+
+const currencyFormat = (num) => {
+  return "$" + num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+};
 
 const Infinity = Math.pow(10, 1000);
 const taxSlabs = {
@@ -102,37 +106,37 @@ const taxSlabs = {
   },
   2023: {
     standardDeduction: {
-      jointly: 25900,
-      separately: 12950,
+      jointly: 27700,
+      separately: 13850,
     },
     jointly: [
       {
         min: 0,
-        max: 20550,
+        max: 22000,
         rate: 0.1,
       },
       {
-        min: 20551,
-        max: 83550,
+        min: 22001,
+        max: 89450,
         rate: 0.12,
       },
       {
-        min: 83551,
-        max: 178150,
+        min: 89451,
+        max: 190750,
         rate: 0.22,
       },
       {
-        min: 178151,
-        max: 340100,
+        min: 190751,
+        max: 364200,
         rate: 0.24,
       },
       {
-        min: 340101,
-        max: 431900,
+        min: 364201,
+        max: 462500,
         rate: 0.32,
       },
       {
-        min: 431901,
+        min: 462501,
         max: Infinity,
         rate: 0.35,
       },
@@ -140,31 +144,31 @@ const taxSlabs = {
     separately: [
       {
         min: 0,
-        max: 10275,
+        max: 11000,
         rate: 0.1,
       },
       {
-        min: 10276,
-        max: 41775,
+        min: 111001,
+        max: 44725,
         rate: 0.12,
       },
       {
-        min: 41776,
-        max: 89075,
+        min: 44726,
+        max: 95375,
         rate: 0.22,
       },
       {
-        min: 89076,
-        max: 170050,
+        min: 95376,
+        max: 182100,
         rate: 0.24,
       },
       {
-        min: 170051,
-        max: 215950,
+        min: 182101,
+        max: 231250,
         rate: 0.32,
       },
       {
-        min: 215951,
+        min: 231251,
         max: Infinity,
         rate: 0.35,
       },
@@ -229,77 +233,87 @@ function FormExample() {
     totalTaxSeparately: 0,
   });
   return (
-    <Row>
-      <Col xs={6}>
-        <Formik
-          validationSchema={schema}
-          onSubmit={(values, { setSubmitting }) => {
-            let { totalTaxJointly, totalTaxSeparately } = calculateTax(
-              values.taxYear,
-              values.yourIncome,
-              values.yourSpouseIncome
-            );
-            setTotalTax({ totalTaxJointly, totalTaxSeparately });
-            setShow(true);
-            setSubmitting(false);
-          }}
-          initialValues={{
-            yourIncome: 0,
-            yourSpouseIncome: 0,
-            taxYear: undefined,
-          }}
-        >
-          {({
-            handleSubmit,
-            handleChange,
-            values,
-            errors,
-            isValid,
-            isSubmitting,
-          }) => (
-            <Form noValidate onSubmit={handleSubmit}>
-              <Col>
-                <FormSection1 />
-              </Col>
-
-              <Col>
-                <FormSection2 />
-              </Col>
-
-              <Col>
-                <Button
-                  disabled={!isValid || isSubmitting}
-                  variant="success"
-                  as="input"
-                  size="lg"
-                  type="submit"
-                  value="Submit"
-                />
-              </Col>
-              <Col>
-                {show && (
-                  <Alert
-                    variant="info"
-                    onClose={() => setShow(false)}
-                    dismissible
-                  >
-                    <Alert.Heading>
-                      {totalTax.totalTaxJointly > totalTax.totalTaxSeparately
-                        ? `You better file your taxes Separately`
-                        : totalTax.totalTaxJointly > totalTax.totalTaxSeparately
-                        ? `You better file your taxes Jointly`
-                        : `Either way you pay same amount`}
-                    </Alert.Heading>
-
-                    <p>
-                      If you file jointly, your total tax will be: $
-                      {totalTax.totalTaxJointly} If you file separately, your
-                      total tax will be: ${totalTax.totalTaxSeparately}
-                    </p>
-                  </Alert>
-                )}
-              </Col>
-              {/* <Col>
+    <Container className="p-3">
+      <Row>
+        <Col xs={12} md={8}>
+          <Formik
+            validationSchema={schema}
+            onSubmit={(values, { setSubmitting }) => {
+              let { totalTaxJointly, totalTaxSeparately } = calculateTax(
+                values.taxYear,
+                values.yourIncome,
+                values.yourSpouseIncome
+              );
+              setTotalTax({ totalTaxJointly, totalTaxSeparately });
+              setShow(true);
+              setSubmitting(false);
+            }}
+            initialValues={{
+              yourIncome: 0,
+              yourSpouseIncome: 0,
+              taxYear: undefined,
+            }}
+          >
+            {({
+              handleSubmit,
+              handleChange,
+              values,
+              errors,
+              isValid,
+              isSubmitting,
+            }) => (
+              <Container>
+                <Form noValidate onSubmit={handleSubmit}>
+                  <Row>
+                    <Col>
+                      <FormSection1 />
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col>
+                      <FormSection2 />
+                    </Col>
+                  </Row>
+                  <Container className="p-3">
+                    <Row>
+                      <Col>
+                        <Button
+                          disabled={!isValid || isSubmitting}
+                          variant="success"
+                          as="input"
+                          size="lg"
+                          type="submit"
+                          value="Submit"
+                        />
+                      </Col>
+                    </Row>
+                  </Container>
+                  <Col>
+                    {show && (
+                      <Alert
+                        variant="info"
+                        onClose={() => setShow(false)}
+                        dismissible
+                      >
+                        <Alert.Heading>
+                          {totalTax.totalTaxJointly >
+                          totalTax.totalTaxSeparately
+                            ? `You better file your taxes Separately`
+                            : totalTax.totalTaxJointly <
+                              totalTax.totalTaxSeparately
+                            ? `You better file your taxes Jointly`
+                            : `Either way you pay same amount`}
+                        </Alert.Heading>
+                        <p>
+                          If you file jointly, your total tax will be:
+                          <h6>{currencyFormat(totalTax.totalTaxJointly)}</h6>
+                          If you file separately, your total tax will be:
+                          <h6>{currencyFormat(totalTax.totalTaxSeparately)}</h6>
+                        </p>
+                      </Alert>
+                    )}
+                  </Col>
+                  {/* <Col>
                 <pre style={{ margin: "0 auto" }}>
                   {JSON.stringify(
                     { ...values, ...errors, isValid, isSubmitting },
@@ -308,11 +322,13 @@ function FormExample() {
                   )}
                 </pre>
               </Col> */}
-            </Form>
-          )}
-        </Formik>
-      </Col>
-    </Row>
+                </Form>
+              </Container>
+            )}
+          </Formik>
+        </Col>
+      </Row>
+    </Container>
   );
 }
 
