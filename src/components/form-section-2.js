@@ -14,8 +14,8 @@ const FormSection2 = () => {
         name="taxYear"
       >
         <option value="">Select a year</option>
-        <option>2022</option>
-        <option>2023</option>
+        <option value="2022">2022 (Files in 2023)</option>
+        <option value="2023">2023 (Files in 2024)</option>
       </FormSelectField>
     </Container>
   );
