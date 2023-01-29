@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import HomePage from "./pages/home-page";
 import TaxReturns from "./pages/tax-returns";
 import NoMatch from "./pages/no-match";
+import TextEditor from "./pages/json-format/text-editor";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -14,6 +15,7 @@ root.render(
       <Routes>
         <Route path="/" element={<HomePage />}>
           <Route path="/taxreturns" element={<TaxReturns />} />
+          <Route path="/json-format" element={<TextEditor />} />
         </Route>
         <Route path="*" element={<NoMatch />} />
       </Routes>

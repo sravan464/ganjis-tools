@@ -4,7 +4,10 @@ import { Link, NavLink } from "react-router-dom";
 
 const SideNav = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const pages = [{ name: "TaxReturns", path: "/taxreturns" }];
+  const pages = [
+    { name: "TaxReturns", path: "/taxreturns" },
+    { name: "JSON formatter", path: "/json-format" },
+  ];
   const filteredPages = pages.filter((page) =>
     page.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -33,14 +36,3 @@ const SideNav = () => {
 };
 
 export default SideNav;
-
-{
-  /* <Nav className="flex-column">
-      <Nav.Link href="/home">Active</Nav.Link>
-      <Nav.Link eventKey="link-1">Link</Nav.Link>
-      <Nav.Link eventKey="link-2">Link</Nav.Link>
-      <Nav.Link eventKey="disabled" disabled>
-        Disabled
-      </Nav.Link>
-    </Nav> */
-}
