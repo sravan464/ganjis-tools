@@ -19,11 +19,15 @@ const jsonToInterface = (json, interfaceName = "IRoot") => {
     let type = typeof value;
     let newInterfaceName = `I${key.charAt(0).toUpperCase()}${key.slice(1)}`;
     if (Array.isArray(value)) {
-      type = `${newInterfaceName}[]`;
-      interfaces[newInterfaceName] = jsonToInterface(
-        value[0],
-        newInterfaceName
-      );
+      if (typeof value[0] === "object") {
+        type = `${newInterfaceName}[]`;
+        interfaces[newInterfaceName] = jsonToInterface(
+          value[0],
+          newInterfaceName
+        );
+      } else {
+        type = `${typeof value[0]}[]`;
+      }
     } else if (value instanceof Object) {
       type = newInterfaceName;
       interfaces[newInterfaceName] = jsonToInterface(value, newInterfaceName);
@@ -32,7 +36,7 @@ const jsonToInterface = (json, interfaceName = "IRoot") => {
   });
   interfaces[
     interfaceName
-  ] = `interface ${interfaceName} {\n${interfaceString}}`;
+  ] = `export interface ${interfaceName} {\n${interfaceString}}`;
   let interfacesString = Object.values(interfaces).join("\n\n");
   return interfacesString;
 };
@@ -48,6 +52,7 @@ const JsonToInterface = () => {
 
   const handleGenerateInterface = (jsonText) => {
     try {
+      //    jsonText = jsonText.replace(/\s+/g, "")
       const json = JSON.parse(jsonText);
       setInterfaceString(jsonToInterface(json));
     } catch (err) {
