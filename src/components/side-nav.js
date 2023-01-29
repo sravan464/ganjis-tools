@@ -7,6 +7,7 @@ const SideNav = () => {
   const pages = [
     { name: "TaxReturns", path: "/taxreturns" },
     { name: "JSON formatter", path: "/json-format" },
+    { name: "JSON-to-TypeScript", path: "/json-ts" },
   ];
   const filteredPages = pages.filter((page) =>
     page.name.toLowerCase().includes(searchTerm.toLowerCase())

@@ -11,7 +11,7 @@ import {
 } from "react-bootstrap";
 
 import SyntaxHighlighter from "react-syntax-highlighter";
-import { tomorrow } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import { a11yDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
 
 const TextEditor = () => {
   const [jsonText, setJsonText] = useState("");
@@ -77,12 +77,12 @@ const TextEditor = () => {
                   <pre>
                     <Button
                       size="md"
-                      variant="outline-primary"
+                      variant="outline-dark"
                       onClick={handleCopyJson}
                     >
                       Copy
                     </Button>
-                    <SyntaxHighlighter language="json" style={tomorrow}>
+                    <SyntaxHighlighter language="json" style={a11yDark}>
                       {formattedJson}
                     </SyntaxHighlighter>
                   </pre>

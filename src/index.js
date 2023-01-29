@@ -7,6 +7,7 @@ import HomePage from "./pages/home-page";
 import TaxReturns from "./pages/tax-returns";
 import NoMatch from "./pages/no-match";
 import TextEditor from "./pages/json-format/text-editor";
+import JsonToInterface from "./pages/json-ts-interface/json-to-interface";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -16,6 +17,7 @@ root.render(
         <Route path="/" element={<HomePage />}>
           <Route path="/taxreturns" element={<TaxReturns />} />
           <Route path="/json-format" element={<TextEditor />} />
+          <Route path="/json-ts" element={<JsonToInterface />} />
         </Route>
         <Route path="*" element={<NoMatch />} />
       </Routes>
